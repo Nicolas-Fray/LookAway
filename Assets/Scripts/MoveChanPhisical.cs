@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class MoveChanPhisical : MonoBehaviour
 {
+
+    public FixedJoystick moveJoystick;
+    private float moveH, moveV, speedMove = 5;
     public Rigidbody rdb;
     public Animator anim;
     Vector3 movaxis, turnaxis;
@@ -49,10 +52,27 @@ public class MoveChanPhisical : MonoBehaviour
             jumpbtn = false;
             jumptime = 0;
         }
-        movaxis = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+        //movaxis = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 
     }
 
+    
+    void movePlayer()
+    {
+        moveH = moveJoystick.Horizontal;
+        moveV = moveJoystick.Vertical;
+
+        Vector3 dir = new Vector3(moveH, 0, moveV);
+        rdb.velocity = new Vector3(moveH * speedMove, rdb.velocity.y, moveV * speedMove);
+        if(dir != Vector3.zero)
+        {
+            transform.LookAt(transform.position + dir);
+        }
+    
+    }
+   
+    
+    
     void FixedUpdate()
     {
 
