@@ -4,19 +4,19 @@ using UnityEngine;
 
 public class Movimentacao : MonoBehaviour
 {
-    public FixedJoystick moveJoystick;   
+    public FixedJoystick moveJoystick;
     private Rigidbody rdb;
     public GameObject currentCamera;
     private float moveH, moveV, speedMove = 5;
     float jumptime;
     public Animator anim;
-    public float jumpspeed = 8;
-    public float gravity = 20;
+    //public float jumpspeed = 8;
+    //public float gravity = 20;
     public Transform rightHandObj, leftHandObj;
     private float verticalVelocity;
-    bool jumpbtn = false;
-    bool jumpbtndown = false;
-    bool jumpbtnrelease = false;
+    /* bool jumpbtn = false;
+     bool jumpbtndown = false;
+     bool jumpbtnrelease = false;*/
     public Movimentacao controller;
 
 
@@ -28,18 +28,12 @@ public class Movimentacao : MonoBehaviour
         controller = GetComponent<Movimentacao>();
     }
 
-    public void Jump()
-    {
-        jumptime -= Time.fixedDeltaTime;
-        jumptime = Mathf.Clamp01(jumptime);
-        rdb.AddForce(Vector3.up * jumptime * jumpspeed);
-    }
 
     void Update()
     {
         movePlayer();
 
-        if (Input.GetButtonDown("Jump"))
+        /*if (Input.GetButtonDown("Jump"))
         {
             jumpbtn = true;
             jumpbtndown = true; 
@@ -47,26 +41,26 @@ public class Movimentacao : MonoBehaviour
         if (Input.GetButtonUp("Jump"))
         {
             jumpbtn = false;
-            jumptime = 0;
+            jumptime = 0;*/
 
-            /*if (controller.isGrounded)
+        /*if (controller.isGrounded)
+        {
+            verticalVelocity = -gravity * Time.deltaTime;
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                verticalVelocity = -gravity * Time.deltaTime;
-                if (Input.GetKeyDown(KeyCode.Space))
-                {
-                    verticalVelocity = jumpspeed;
-                }
+                verticalVelocity = jumpspeed;
             }
-            else
-            {
-                verticalVelocity -= gravity * Time.deltaTime;   
-            }
-            Vector3 moveVector = Vector3.zero;
-            moveVector.x = Input.GetAxis("Horizontal");
-            moveVector.y =Input.GetAxis("Vertical");
-            controller.Move(moveVector * Time.deltaTime);*/
-
         }
+        else
+        {
+            verticalVelocity -= gravity * Time.deltaTime;   
+        }
+        Vector3 moveVector = Vector3.zero;
+        moveVector.x = Input.GetAxis("Horizontal");
+        moveVector.y =Input.GetAxis("Vertical");
+        controller.Move(moveVector * Time.deltaTime);
+
+    }*/
     }
 
     void movePlayer()
@@ -75,8 +69,8 @@ public class Movimentacao : MonoBehaviour
         //moveV = Input.GetAxis("Vertical");
         moveH = moveJoystick.Horizontal;
         moveV = moveJoystick.Vertical;
-        Vector3 dir = new Vector3 (moveH, 0, moveV);
-        rdb.velocity = new Vector3(moveH*speedMove, rdb.velocity.y, moveV*speedMove);
+        Vector3 dir = new Vector3(moveH, 0, moveV);
+        rdb.velocity = new Vector3(moveH * speedMove, rdb.velocity.y, moveV * speedMove);
         if (dir != Vector3.zero)
         {
             transform.LookAt(transform.position + dir);
@@ -85,7 +79,7 @@ public class Movimentacao : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector3 relativedirection = currentCamera.transform.TransformVector(moveH, 0 ,moveV);
+        Vector3 relativedirection = currentCamera.transform.TransformVector(moveH, 0, moveV);
         relativedirection = new Vector3(relativedirection.x, jumptime, relativedirection.z);
 
         Vector3 relativeDirectionWOy = relativedirection;
@@ -95,6 +89,7 @@ public class Movimentacao : MonoBehaviour
     }
 
 
- 
+
+
 
 }
